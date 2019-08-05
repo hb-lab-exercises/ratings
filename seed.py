@@ -4,6 +4,7 @@ from sqlalchemy import func
 from model import User
 from model import Rating
 from model import Movie
+from datetime import date
 
 from model import connect_to_db, db
 from server import app
@@ -46,6 +47,9 @@ def load_movies():
     for row in open("seed_data/u.item"):
         row = row.rstrip()
         movie_id, title, released_at, imdb_url, *genres = row.split("|")
+
+        # Reformat released_at into datetime object
+        #released_at = date.strptime(released_at, "%d-%b-%Y")
 
         movie = Movie(movie_id=movie_id, 
                       title=title, 
