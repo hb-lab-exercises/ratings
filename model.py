@@ -32,9 +32,19 @@ class Movie(db.Model):
     __tablename__ = "movies"
 
     movie_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, nullable=False)        # Should we specify String length?
+    title = db.Column(db.String, nullable=False)
     released_at = db.Column(db.Datetime, nullable=False)
     imdb_url = db.Column(db.String, nullable=False)
+
+class Rating(db.Model):
+    """User ratings"""
+
+    __tablename__ = "ratings"
+
+    rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    movie_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
 
 ##############################################################################
 # Helper functions
