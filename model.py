@@ -26,6 +26,15 @@ class User(db.Model):
 
 # Put your Movie and Rating model classes here.
 
+class Movie(db.Model):
+    """A movie."""
+
+    __tablename__ = "movies"
+
+    movie_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)        # Should we specify String length?
+    released_at = db.Column(db.Datetime, nullable=False)
+    imdb_url = db.Column(db.String, nullable=False)
 
 ##############################################################################
 # Helper functions
