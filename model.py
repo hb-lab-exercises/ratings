@@ -67,6 +67,15 @@ class Rating(db.Model):
     movie = db.relationship("Movie",
                             backref=db.backref("ratings", order_by=rating_id))
 
+    def __repr__(self):
+        """Provide helpful representation when printed"""
+
+        return f"""<Rating rating_id={self.rating_id}
+                   movie_id={self.movie_id}
+                   user_id={self.user_id}
+                   score={self.score}>"""
+
+
 ##############################################################################
 # Helper functions
 
