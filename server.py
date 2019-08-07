@@ -40,16 +40,15 @@ def register_process():
     email = request.form.get('email')
     password = request.form.get('password')
 
+    if User.query.filter(User.email == email).first():
+        # If email exists (i.e. is duplicate) 
+        flash("Email already exists!")
+        return redirect('/register')
 
-    if  User.query.filter(User.email == email).first().email:
-       # User.query(User.email).filter(User.email == email).first() 
-       flash("Email already exists!")
-       return redirect('/register')
-    else:
-        # Adds and commits user's email and password into the database 
-        db.session.add(User(email=email, password=password))
-        db.session.commit()
-        return redirect('/')
+    # Adds and commits user's email and password into the database 
+    db.session.add(User(email=email, password=password))
+    db.session.commit()
+    return redirect('/')
 
 @app.route('/login', methods=["GET"])
 def login_form():
@@ -62,8 +61,8 @@ def login_form():
 def login_process():
     """Redirects user to homepage after login message"""
 
-
     # query for that email address in database
+    # if User.query.filter(User.email==email).first():
         # if email matches the password 
             #log user in - adding user id - from db to flask session
             # flash("Logged in")
