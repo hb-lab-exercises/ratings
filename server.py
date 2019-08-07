@@ -61,16 +61,22 @@ def login_form():
 def login_process():
     """Redirects user to homepage after login message"""
 
-    # query for that email address in database
-    # if User.query.filter(User.email==email).first():
-        # if email matches the password 
-            #log user in - adding user id - from db to flask session
-            # flash("Logged in")
-            # redirect back to homepage
-        # else error message 
-            # redirect back to login page?
-            # hyperlink registration page
-    return redirect("/")
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    # query for that email address in database (returns Truthly/Falsey (none))   
+    user_id = db.session.query(User.user_id).filter(User.email==email,
+                                       User.password==password).first()
+    # Check if email matches the password 
+    if user_id:
+        #log user in - adding user id - from db to flask session
+        flash("Logged in")
+        session["User"] = user_id
+        return redirect("/")
+    else:
+        flash("Error: Username/Password is invalid")
+        return redirect("/")
+
 
 @app.route('/users')
 def user_list():
