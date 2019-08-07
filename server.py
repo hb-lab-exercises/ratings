@@ -50,6 +50,7 @@ def register_process():
     db.session.commit()
     return redirect('/')
 
+
 @app.route('/login', methods=["GET"])
 def login_form():
     """Displays login form"""
@@ -76,6 +77,17 @@ def login_process():
     else:
         flash("Error: Username/Password is invalid")
         return redirect("/")
+
+
+@app.route('/logout')
+def logout_process():
+    """Logs out user"""
+
+    # removes user id from session
+    del session["User"]
+    flash("Logged Out")
+    
+    return redirect("/")
 
 
 @app.route('/users')
