@@ -90,6 +90,14 @@ def logout_process():
     return redirect("/")
 
 
+@app.route('/movies')
+def movie_list():
+    """Show list of movies."""
+
+    movies = Movie.query.order_by('title').all()
+    return render_template("movie_list.html", movies=movies)
+
+
 @app.route('/users')
 def user_list():
     """Show list of users."""
