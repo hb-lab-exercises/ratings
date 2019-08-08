@@ -29,7 +29,6 @@ class User(db.Model):
         return f"<User user_id={self.user_id} email={self.email}>"
 
 
-
 # Put your Movie and Rating model classes here.
 
 class Movie(db.Model):

@@ -98,6 +98,16 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 
+@app.route('/users/<user_id>')
+def user_details(user_id):
+    """Show details about a user."""
+
+    user_object = db.session.query(User).filter(User.user_id==user_id).first()
+
+    return render_template('user_details.html', 
+                            user_object=user_object)
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
