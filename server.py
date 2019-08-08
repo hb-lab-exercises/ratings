@@ -66,14 +66,14 @@ def login_process():
     password = request.form.get("password")
 
     # query for that email address in database (returns Truthly/Falsey (none))   
-    user_id = db.session.query(User.user_id).filter(User.email==email,
-                                       User.password==password).first()
+    user_id = db.session.query(User).filter(User.email==email,
+                                       User.password==password).first().user_id
     # Check if email matches the password 
     if user_id:
         #log user in - adding user id - from db to flask session
         flash("Logged in")
         session["User"] = user_id
-        return redirect("/")
+        return redirect(f"/users/{user_id}")
     else:
         flash("Error: Username/Password is invalid")
         return redirect("/")
