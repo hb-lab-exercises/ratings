@@ -98,6 +98,52 @@ def movie_list():
     return render_template("movie_list.html", movies=movies)
 
 
+@app.route('/movies/<movie_id>')
+def movie_details(movie_id):
+    """Show details about a movie."""
+
+    movie_object = db.session.query(Movie).filter(
+                                                  Movie.movie_id==movie_id
+                                                  ).first()
+    sum_ = 0
+    for rating in movie_object.ratings:
+        sum_ += rating.score
+
+    average_rating = sum_/len(movie_object.ratings)
+
+    return render_template('movie_details.html',
+                           movie_object=movie_object,
+                           average_rating=f'{average_rating:.2f}',
+                           session=session)
+
+
+@app.route('/movies/<movie_id>/rate', methods=["POST"])
+def rate_movie(movie_id):
+    """Rate a movie and redirect to movie."""
+
+    user_id = session.get("User")
+    score = request.form.get("score")
+
+    if user_id:
+        # Validation check
+        rating = Rating.query.filter(Rating.movie_id==movie_id,
+                                     Rating.user_id==user_id).first()
+        if rating:
+            # Update rating's score with new score
+            rating.score = score
+        else:
+            # Instantiate Rating object
+            rating = Rating(user_id=user_id,
+                            movie_id=movie_id,
+                            score=score)
+        db.session.add(rating)
+        db.session.commit()
+    else:
+        flash("Error!")
+    
+    return redirect(f"/movies/{movie_id}")
+
+
 @app.route('/users')
 def user_list():
     """Show list of users."""

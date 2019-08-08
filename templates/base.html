@@ -2,12 +2,19 @@
 <html>
 <head>
     <title>Ratings</title>
+    <style>
+
+        .flashed {
+            background-color: #ffee00;
+        }
+
+    </style>
 </head>
 
 <body>
     <ul>
         {% for message in get_flashed_messages() %}
-            <li>{{ message }}</li>
+            <li class="flashed">{{ message }}</li>
         {% endfor %}
     </ul>
 
